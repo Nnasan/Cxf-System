@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aike.mapper.CheckerMapper" >
+  <resultMap id="BaseResultMap" type="com.aike.pojo.Checker" >
+    <id column="c_id" property="cId" jdbcType="INTEGER" />
+    <result column="c_sno" property="cSno" jdbcType="INTEGER" />
+    <result column="c_name" property="cName" jdbcType="VARCHAR" />
+    <result column="c_password" property="cPassword" jdbcType="VARCHAR" />
+    <result column="c_class_id" property="cClassId" jdbcType="INTEGER" />
+    <association property="cClass" javaType="com.aike.pojo.Class">
+      <id property="clId" column="cl_id"/>
+      <result property="clName" column="cl_name"/>
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    c_id, c_sno, c_name, c_password, c_class_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aike.pojo.CheckerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from checker
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from checker
+    where c_id = #{cId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from checker
+    where c_id = #{cId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aike.pojo.CheckerExample" >
+    delete from checker
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aike.pojo.Checker" >
+    insert into checker (c_id, c_sno, c_name, 
+      c_password, c_class_id)
+    values (#{cId,jdbcType=INTEGER}, #{cSno,jdbcType=INTEGER}, #{cName,jdbcType=VARCHAR}, 
+      #{cPassword,jdbcType=VARCHAR}, #{cClassId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aike.pojo.Checker" >
+    insert into checker
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        c_id,
+      </if>
+      <if test="cSno != null" >
+        c_sno,
+      </if>
+      <if test="cName != null" >
+        c_name,
+      </if>
+      <if test="cPassword != null" >
+        c_password,
+      </if>
+      <if test="cClassId != null" >
+        c_class_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="cSno != null" >
+        #{cSno,jdbcType=INTEGER},
+      </if>
+      <if test="cName != null" >
+        #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cPassword != null" >
+        #{cPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="cClassId != null" >
+        #{cClassId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aike.pojo.CheckerExample" resultType="java.lang.Integer" >
+    select count(*) from checker
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update checker
+    <set >
+      <if test="record.cId != null" >
+        c_id = #{record.cId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cSno != null" >
+        c_sno = #{record.cSno,jdbcType=INTEGER},
+      </if>
+      <if test="record.cName != null" >
+        c_name = #{record.cName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cPassword != null" >
+        c_password = #{record.cPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cClassId != null" >
+        c_class_id = #{record.cClassId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update checker
+    set c_id = #{record.cId,jdbcType=INTEGER},
+      c_sno = #{record.cSno,jdbcType=INTEGER},
+      c_name = #{record.cName,jdbcType=VARCHAR},
+      c_password = #{record.cPassword,jdbcType=VARCHAR},
+      c_class_id = #{record.cClassId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aike.pojo.Checker" >
+    update checker
+    <set >
+      <if test="cSno != null" >
+        c_sno = #{cSno,jdbcType=INTEGER},
+      </if>
+      <if test="cName != null" >
+        c_name = #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cPassword != null" >
+        c_password = #{cPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="cClassId != null" >
+        c_class_id = #{cClassId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where c_id = #{cId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aike.pojo.Checker" >
+    update checker
+    set c_sno = #{cSno,jdbcType=INTEGER},
+      c_name = #{cName,jdbcType=VARCHAR},
+      c_password = #{cPassword,jdbcType=VARCHAR},
+      c_class_id = #{cClassId,jdbcType=INTEGER}
+    where c_id = #{cId,jdbcType=INTEGER}
+  </update>
+
+  <sql id="Base_rely_class_Column_List" >
+    cl_id, cl_name
+  </sql>
+  <select id="selectAllCondition" parameterType="com.aike.service.vo.SelectHelp" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>,<include refid="Base_rely_class_Column_List"></include>
+    from checker join class on
+    c_class_id = cl_id
+    <where>
+      <if test="name != null and name != ''">
+        and c_name like "%"#{name}"%"
+      </if>
+      <if test="sno != null and sno != ''">
+        and c_sno = #{sno}
+      </if>
+      <if test="classname != null and classname != ''">
+        and cl_name like "%"#{classname}"%"
+      </if>
+    </where>
+    order by c_sno desc
+  </select>
+</mapper>

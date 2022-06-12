@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aike.mapper.RecordMapper" >
+  <resultMap id="BaseResultMap" type="com.aike.pojo.Record" >
+    <id column="r_id" property="rId" jdbcType="INTEGER" />
+    <result column="s_id" property="sId" jdbcType="INTEGER" />
+    <result column="d_id" property="dId" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+    <result column="updatescore" property="updatescore" jdbcType="DOUBLE" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="c_id" property="cId" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="s_name" property="sName" jdbcType="VARCHAR" />
+    <result column="d_name" property="dName" jdbcType="VARCHAR" />
+    <result column="c_name" property="cName" jdbcType="VARCHAR" />
+    <result column="s_sno" property="sSno" jdbcType="VARCHAR" />
+    <result column="d_sno" property="dSno" jdbcType="VARCHAR" />
+    <result column="c_sno" property="cSno" jdbcType="VARCHAR" />
+    <result column="cl_name" property="clName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    r_id, s_id, d_id, date, updatescore, status, c_id, remarks
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aike.pojo.RecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from record
+    where r_id = #{rId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from record
+    where r_id = #{rId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aike.pojo.RecordExample" >
+    delete from record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aike.pojo.Record" >
+    insert into record (r_id, s_id, d_id, 
+      date, updatescore, status, 
+      c_id, remarks)
+    values (#{rId,jdbcType=INTEGER}, #{sId,jdbcType=INTEGER}, #{dId,jdbcType=INTEGER}, 
+      #{date,jdbcType=TIMESTAMP}, #{updatescore,jdbcType=DOUBLE}, #{status,jdbcType=BIT}, 
+      #{cId,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aike.pojo.Record" >
+    insert into record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rId != null" >
+        r_id,
+      </if>
+      <if test="sId != null" >
+        s_id,
+      </if>
+      <if test="dId != null" >
+        d_id,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="updatescore != null" >
+        updatescore,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="cId != null" >
+        c_id,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rId != null" >
+        #{rId,jdbcType=INTEGER},
+      </if>
+      <if test="sId != null" >
+        #{sId,jdbcType=INTEGER},
+      </if>
+      <if test="dId != null" >
+        #{dId,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatescore != null" >
+        #{updatescore,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="cId != null" >
+        #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aike.pojo.RecordExample" resultType="java.lang.Integer" >
+    select count(*) from record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update record
+    <set >
+      <if test="record.rId != null" >
+        r_id = #{record.rId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sId != null" >
+        s_id = #{record.sId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dId != null" >
+        d_id = #{record.dId,jdbcType=INTEGER},
+      </if>
+      <if test="record.date != null" >
+        date = #{record.date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatescore != null" >
+        updatescore = #{record.updatescore,jdbcType=DOUBLE},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=BIT},
+      </if>
+      <if test="record.cId != null" >
+        c_id = #{record.cId,jdbcType=INTEGER},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update record
+    set r_id = #{record.rId,jdbcType=INTEGER},
+      s_id = #{record.sId,jdbcType=INTEGER},
+      d_id = #{record.dId,jdbcType=INTEGER},
+      date = #{record.date,jdbcType=TIMESTAMP},
+      updatescore = #{record.updatescore,jdbcType=DOUBLE},
+      status = #{record.status,jdbcType=BIT},
+      c_id = #{record.cId,jdbcType=INTEGER},
+      remarks = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aike.pojo.Record" >
+    update record
+    <set >
+      <if test="sId != null" >
+        s_id = #{sId,jdbcType=INTEGER},
+      </if>
+      <if test="dId != null" >
+        d_id = #{dId,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatescore != null" >
+        updatescore = #{updatescore,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="cId != null" >
+        c_id = #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where r_id = #{rId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aike.pojo.Record" >
+    update record
+    set s_id = #{sId,jdbcType=INTEGER},
+      d_id = #{dId,jdbcType=INTEGER},
+      date = #{date,jdbcType=TIMESTAMP},
+      updatescore = #{updatescore,jdbcType=DOUBLE},
+      status = #{status,jdbcType=BIT},
+      c_id = #{cId,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where r_id = #{rId,jdbcType=INTEGER}
+  </update>
+  <select id="selectAllCondition" parameterType="com.aike.service.vo.SelectRecord" resultMap="BaseResultMap">
+    select
+    re.r_id, re.s_id, re.d_id, re.date, re.updatescore, re.status, re.c_id, re.remarks
+    ,ch.c_name,da.d_name,st.s_name,ch.c_sno,da.d_sno,st.s_sno,cl.cl_name
+    from record re
+   left join student st on
+    st.s_id = re.s_id
+    left join dataer da on
+    da.d_id = re.d_id
+    left join checker ch on
+    ch.c_id = re.c_id
+    left join class cl on
+    cl.cl_id = st.s_class_id
+    <where>
+      <if test="sSno != null and sSno != ''">
+        and st.s_sno = #{sSno}
+      </if>
+      <if test="dSno != null and dSno != ''">
+        and da.d_sno = #{dSno}
+      </if>
+      <if test="cSno != null and cSno != ''">
+        and ch.c_sno = #{cSno}
+      </if>
+      <if test="clName != null and clName != ''">
+        and cl.cl_name= #{clName}
+      </if>
+      <if test="status != null and status != ''">
+        and re.status= #{status}
+      </if>
+    </where>
+    order by re.r_id desc
+  </select>
+  <insert id="dataerInsert" parameterType="com.aike.pojo.Record" >
+    insert into record (r_id, s_id, d_id,
+      date, updatescore, status,
+      c_id, remarks)
+    values (#{rId,jdbcType=INTEGER}, (select s_id from student where s_sno = #{sSno,jdbcType=INTEGER}),
+     (select d_id from dataer where d_sno = #{dSno,jdbcType=INTEGER}),
+      #{date,jdbcType=TIMESTAMP}, #{updatescore,jdbcType=DOUBLE}, #{status,jdbcType=BIT},
+      #{cId,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+</mapper>
